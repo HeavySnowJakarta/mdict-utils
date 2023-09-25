@@ -101,8 +101,9 @@ def run():
                     split = None
                 reader.unpack(args.exdir, args.mdict, split=split, convert_chtml=args.convert_chtml)
     elif args.add:
-        with ElapsedTimer(verbose=True):
+        with ElapsedTimer(verbose=True): # 与计数器有关
             keys = []
+            # 此部分与 key-file 参数有关，意在限定参与 pack 的 key 的部分
             if args.key_file:
                 with open(args.key_file, 'rt', newline='', encoding='utf-8') as f_csv:
                     csv_reader = csv.reader(f_csv)
@@ -111,17 +112,17 @@ def run():
             is_mdd = args.mdict.endswith('.mdd')
             dictionary = []
             for resource in args.add:
-                fmt = '\rScan "%s": %%s' % resource
+                fmt = '\rScan "%s": %%s' % resource # ?
                 total = 0
                 if is_mdd:
                     if resource.endswith('.db'):
                         d = pack_mdd_db(resource, callback=make_callback(fmt))
                     else:
                         d = pack_mdd_file(resource, callback=make_callback(fmt))
-                else:
+                else: #
                     if resource.endswith('.db'):
                         d = pack_mdx_db(resource, encoding=args.encoding, callback=make_callback(fmt))
-                    else:
+                    else: #
                         d = pack_mdx_txt(resource, encoding=args.encoding, callback=make_callback(fmt), keys=keys)
                 dictionary.extend(d)
                 print()

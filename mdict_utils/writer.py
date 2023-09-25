@@ -301,7 +301,7 @@ class MDictWriter(MDictWriterBase):
         f.write(header_string)
         f.write(struct.pack(b"<L", zlib.adler32(header_string) & 0xffffffff))
 
-
+# target 参数代表被写入的 mdx 文件名称，dictionary 参数由 pack_mdx_txt() 函数生成
 def pack(target, dictionary, title='', description='',
          key_size=32768, record_size=65536, encoding='UTF-8', is_mdd=False):
     def callback(value):
@@ -422,6 +422,7 @@ def pack_mdd_db(source, callback=None):
     return dictionary
 
 
+# source 参数代表包含词典数据的 txt 文件，encoding 参数代表该文件编码
 def pack_mdx_txt(source, encoding='UTF-8', callback=None, keys=None):
     """return LIST data."""
     dictionary = []
